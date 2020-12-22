@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Burger from '../../components/Burger/Burger';
+import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
+import Modal from '../../components/UI/Modal/Modal';
 
 const INGREDIENT_PRICES = {
   salad: 0.5,
@@ -16,7 +18,23 @@ class BurgerBuilder extends Component {
       cheese: 0,
       meat: 0
     },
-    totalPrice: 4
+    totalPrice: 4,
+    purchasable: false,
+    purchasing: false
+  }
+
+  updatePurchaseState = (ingredients) => {
+    // const ingredients = { ...this.state.ingredients };
+    const sum = Object
+      .keys(ingredients)
+      .map((ingredient) => {
+        return ingredients[ingredient];
+      })
+      .reduce((value, currentElement) => {
+        return value + currentElement;
+      }, 0);
+
+    this.setState({ purchasable: sum > 0 });
   }
 
   addIngredientHandler = (type) => {
@@ -33,6 +51,8 @@ class BurgerBuilder extends Component {
       ingredients: newIngredients,
       totalPrice: newTotalPrice
     });
+
+    this.updatePurchaseState(newIngredients);
   }
 
   removeIngredientHandler = (type) => {
@@ -53,23 +73,34 @@ class BurgerBuilder extends Component {
       ingredients: newIngredients,
       totalPrice: newTotalPrice
     });
+
+    this.updatePurchaseState(newIngredients);
+  }
+
+  purchaseHandler = () => {
+    this.setState({ purchasing: true });
   }
 
   render() {
-    const disabledInfo = {...this.state.ingredients}
+    const disabledInfo = { ...this.state.ingredients }
     for (let key in disabledInfo) {
       disabledInfo[key] = disabledInfo[key] <= 0;
     }
 
     return (
       <React.Fragment>
+        <Modal show={this.state.purchasing}>
+          <OrderSummary ingredients={this.state.ingredients} />
+        </Modal>
         <Burger ingredients={this.state.ingredients} />
-        <BuildControls 
+        <BuildControls
           price={this.state.totalPrice}
           addIngredient={this.addIngredientHandler}
           removeIngredient={this.removeIngredientHandler}
           disabledInfo={disabledInfo}
-          />
+          purchasable={this.state.purchasable}
+          purchase={this.purchaseHandler}
+        />
       </React.Fragment>
     );
   }
