@@ -15,7 +15,7 @@ const Burger = (props) => {
     .reduce((finalArray, currentElement) => {
       return finalArray.concat(currentElement);
     }, []);
-  console.log(ingredients);
+
   return (
     <div id="burger">
       <BurgerIngredient type="bread-top" />
