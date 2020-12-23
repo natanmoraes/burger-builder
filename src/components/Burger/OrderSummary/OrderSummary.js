@@ -1,4 +1,5 @@
 import React from 'react'
+import Button from '../../UI/Button/Button';
 import './OrderSummary.scss';
 
 const OrderSummary = (props) => {
@@ -15,6 +16,8 @@ const OrderSummary = (props) => {
         {ingredientsSummary}
       </ul>
       <p>Continue to checkout?</p>
+      <Button type="danger" onClick={props.onPurchaseCancel}>Cancel</Button>
+      <Button type="success" onClick={props.onPurchaseContinue}>Continue</Button>
     </div>
   )
 }
