@@ -15,4 +15,20 @@
   nav {
     height: 100%;
   }
+
+  .logo {
+    height: 80%;
+  }
+
+  .navigation {
+    display: none;
+  }
+}
+
+@media (min-width: 500px) {
+  .toolbar {
+    .navigation {
+      display: block;
+    }
+  }
 }
