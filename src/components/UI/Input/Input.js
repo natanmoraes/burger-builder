@@ -5,20 +5,29 @@ const Input = (props) => {
   let element = null;
 
   switch (props.type) {
-      case ('input'):
-        element = <input {...props} />;
-        break;
-      case ('textarea'):
-        element = <textarea {...props} />;
-        break;
-      default:
-        element = <input {...props} />;
+    case ('input'):
+      element = <input {...props.config} value={props.value} />;
+      break;
+    case ('textarea'):
+      element = <textarea {...props.config} value={props.value} />;
+      break;
+    case ('select'):
+      element = (
+        <select value={props.value}>
+          {props.config.options.map(option => (
+            <option key={option.value} value={option.value}>{option.label}</option>
+          ))}
+        </select>
+      );
+      break;
+    default:
+      element = <input {...props.config} value={props.value} />;
   }
 
   return (
     <div className="input">
-        <label>{props.label}</label>
-        {element}
+      <label>{props.label}</label>
+      {element}
     </div>
   );
 };
