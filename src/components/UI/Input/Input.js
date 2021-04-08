@@ -4,16 +4,32 @@ import './Input.scss';
 const Input = (props) => {
   let element = null;
 
+  let classes = [];
+
+  if (!props.isValid && props.shouldValidate && props.wasTouched) {
+    classes.push('invalid');
+  }
+
   switch (props.type) {
     case ('input'):
-      element = <input {...props.config} value={props.value} onChange={props.onChange} />;
+      element = <input
+        {...props.config}
+        className={classes.join(' ')}
+        value={props.value}
+        onChange={props.onChange}
+      />;
       break;
     case ('textarea'):
-      element = <textarea {...props.config} value={props.value} onChange={props.onChange} />;
+      element = <textarea
+        {...props.config}
+        className={classes.join(' ')}
+        value={props.value}
+        onChange={props.onChange}
+      />;
       break;
     case ('select'):
       element = (
-        <select value={props.value} onChange={props.onChange}>
+        <select value={props.value} onChange={props.onChange} className={classes.join(' ')} >
           {props.config.options.map(option => (
             <option key={option.value} value={option.value}>{option.label}</option>
           ))}
@@ -21,7 +37,12 @@ const Input = (props) => {
       );
       break;
     default:
-      element = <input {...props.config} value={props.value} onChange={props.onChange} />;
+      element = <input
+        {...props.config}
+        className={classes.join(' ')}
+        value={props.value}
+        onChange={props.onChange}
+      />;
   }
 
   return (
